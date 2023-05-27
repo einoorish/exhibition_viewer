@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     composable("home") {
                         HomeScreen(
-                            onExhibitSelected = { id -> navController.navigate("exhibit/$id") },
+                            onPublicationSelected = { id -> navController.navigate("publication/$id") },
                             onOrganizationSelected = { id -> navController.navigate("organization/$id") },
                         )
                     }
@@ -47,11 +47,11 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val organizationId = backStackEntry.arguments?.getLong("id")
                         organizationId?.let { id ->
-                            CollectionDetailsScreen(id) { itemId -> navController.navigate("exhibit/$itemId") }
+                            CollectionDetailsScreen(id) { itemId -> navController.navigate("publication/$itemId") }
                         }
                     }
                     composable(
-                        route = "exhibit/{id}",
+                        route = "publication/{id}",
                         arguments = listOf(navArgument("id") { type = NavType.LongType })
                     ) { backStackEntry ->
                         val organizationId = backStackEntry.arguments?.getLong("id")

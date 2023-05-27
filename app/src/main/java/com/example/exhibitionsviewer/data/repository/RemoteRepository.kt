@@ -6,7 +6,7 @@ import com.example.exhibitionsviewer.data.model.Organization
 import com.example.exhibitionsviewer.data.model.Publication
 import javax.inject.Inject
 
-class MainRepository @Inject constructor(private val apiHelper: ApiHelper) {
+class RemoteRepository @Inject constructor(private val apiHelper: ApiHelper) {
 
     suspend fun getPublications(searchPhrase: String, offset: Int): List<Publication> {
         return apiHelper.getPublications(searchPhrase, offset)

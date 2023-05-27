@@ -64,6 +64,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
 
     implementation "io.coil-kt:coil-compose:2.0.0-rc01"
     implementation "com.google.accompanist:accompanist-pager:0.31.2-alpha"
@@ -73,8 +74,6 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.42'
     kapt 'com.google.dagger:hilt-compiler:2.42'
 
-    def lifecycle = "2.3.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle}"
 
     // parsing JSON
     implementation 'com.google.code.gson:gson:2.8.7'

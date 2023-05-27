@@ -66,7 +66,7 @@ fun SearchView(state: MutableState<TextFieldValue>) {
             cursorColor = Color.White,
             leadingIconColor = Color.White,
             trailingIconColor = Color.White,
-            backgroundColor = colorResource(id = R.color.purple_500),
+            backgroundColor = colorResource(id = R.color.blue_700),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent

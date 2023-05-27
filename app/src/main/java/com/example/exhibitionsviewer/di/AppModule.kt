@@ -55,11 +55,4 @@ class AppModule {
         .fallbackToDestructiveMigration()
         .build()
 
-//    @Provides
-//    @Singleton
-//    fun provideDb(@ApplicationContext appContext: Context): GifsDatabase =
-//        Room.databaseBuilder(appContext, GifsDatabase::class.java, "subscription_database")
-//            .fallbackToDestructiveMigration()
-//            .build()
-
 }

@@ -11,7 +11,7 @@ class ApiKeyInterceptor : Interceptor {
         val url = chain.request()
             .url
             .newBuilder()
-            .addQueryParameter("limit", "8")
+            .addQueryParameter("limit", "16")
             .build()
 
         val request = chain.request()

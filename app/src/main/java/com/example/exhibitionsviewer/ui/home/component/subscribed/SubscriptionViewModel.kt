@@ -3,8 +3,7 @@ package com.example.exhibitionsviewer.ui.home.component.subscribed
 import androidx.lifecycle.*
 import com.example.exhibitionsviewer.data.model.Publication
 import com.example.exhibitionsviewer.data.model.Subscription
-import com.example.exhibitionsviewer.data.model.ViewedExhibits
-import com.example.exhibitionsviewer.data.repository.MainRepository
+import com.example.exhibitionsviewer.data.repository.RemoteRepository
 import com.example.exhibitionsviewer.data.repository.SubscriptionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,12 +15,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SubscriptionViewModel @Inject constructor(
-    private val mainRepository: MainRepository,
+    private val remoteRepository: RemoteRepository,
     private val subscriptionRepository: SubscriptionRepository
 ) : ViewModel() {
 
     fun getAllPublications(): Flow<List<Publication>> = flow {
-        emit(mainRepository.getPublications("", 0))
+        emit(remoteRepository.getPublications("", 0))
     }.flowOn(Dispatchers.IO)
 
 

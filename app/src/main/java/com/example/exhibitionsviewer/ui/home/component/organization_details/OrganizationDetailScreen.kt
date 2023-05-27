@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.material.Card
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Icon
@@ -33,7 +34,7 @@ import com.example.exhibitionsviewer.data.model.Category
 import com.example.exhibitionsviewer.data.model.Organization
 import com.example.exhibitionsviewer.ui.home.component.organization_details.components.imageFromURL
 import com.example.exhibitionsviewer.ui.home.component.subscribed.SubscriptionViewModel
-import com.example.exhibitionsviewer.ui.theme.Purple500
+import com.example.exhibitionsviewer.ui.theme.blue500
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -56,7 +57,7 @@ fun OrganizationDetailScreen(id: Long, onCollectionSelected: (Long) -> Unit) {
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 text = { Text(text = "Subscribe") },
-                backgroundColor = Purple500,
+                backgroundColor = blue500,
                 onClick = { organization.value?.let {
                     Toast.makeText(context, "Subscribed", Toast.LENGTH_LONG).show()
                     subscriptionViewModel.subscribe(it.id, it.organizationName)
@@ -123,8 +124,6 @@ fun OrganizationDetailScreen(id: Long, onCollectionSelected: (Long) -> Unit) {
 
                 )
 
-
-
                 var sizeImage by remember { mutableStateOf(IntSize.Zero) }
 
                 val gradient = Brush.verticalGradient(
@@ -134,7 +133,7 @@ fun OrganizationDetailScreen(id: Long, onCollectionSelected: (Long) -> Unit) {
                 )
 
                 items?.let {
-                    HorizontalPager(
+                    VerticalPager(
                         state = pagerState.value,
                         contentPadding = PaddingValues(horizontal = 32.dp),
                         pageCount = it.size,

@@ -13,11 +13,10 @@ import androidx.compose.ui.Modifier
 import com.example.exhibitionsviewer.ui.home.component.organizations.OrganizationsComponent
 import com.example.exhibitionsviewer.ui.home.component.exhibits.ExhibitsComponent
 import com.example.exhibitionsviewer.ui.home.component.subscribed.SubscribedComponent
-import com.google.gson.JsonObject
 
 @Composable
 fun HomeScreen(
-    onExhibitSelected: (Long) -> Unit,
+    onPublicationSelected: (Long) -> Unit,
     onOrganizationSelected: (Long) -> Unit,
 ) {
     val selectedItem = rememberSaveable { mutableStateOf(1) }
@@ -50,9 +49,9 @@ fun HomeScreen(
             modifier = Modifier.padding(innerPadding)
         ) {
             when (selectedItem.value) {
-                0 -> ExhibitsComponent(onExhibitSelected)
+                0 -> ExhibitsComponent(onPublicationSelected)
                 1 -> OrganizationsComponent(onOrganizationSelected)
-                2 -> SubscribedComponent(onExhibitSelected)
+                2 -> SubscribedComponent(onPublicationSelected)
             }
         }
     }

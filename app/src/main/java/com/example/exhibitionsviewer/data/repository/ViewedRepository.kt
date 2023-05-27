@@ -22,4 +22,8 @@ class ViewedRepository @Inject constructor(db: MainDatabase)  {
     fun isViewed(id: Long): Boolean {
         return viewedDao.hasItem(id);
     }
+
+    fun getAll(): Flow<List<ViewedExhibits>> {
+        return viewedDao.getAll();
+    }
 }
