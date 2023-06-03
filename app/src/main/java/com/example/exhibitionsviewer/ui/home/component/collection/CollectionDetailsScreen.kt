@@ -38,14 +38,14 @@ fun CollectionDetailsScreen(id: Long, onItemClick: (Long) -> Unit){
         bottomBar = {
             BottomNavigation {
                 BottomNavigationItem(
-                    icon = { Icon(Icons.Default.Check, contentDescription = "Guided") },
-                    label = { Text("Guided") },
+                    icon = { Icon(Icons.Default.Check, contentDescription = "Екскурсія") },
+                    label = { Text("Екскурсія") },
                     selected = selectedItem.value == 0,
                     onClick = { selectedItem.value = 0 }
                 )
                 BottomNavigationItem(
-                    icon = { Icon(Icons.Default.List, contentDescription = "Gallery") },
-                    label = { Text("Gallery") },
+                    icon = { Icon(Icons.Default.List, contentDescription = "Галерея") },
+                    label = { Text("Галерея") },
                     selected = selectedItem.value == 1,
                     onClick = { selectedItem.value = 1 }
                 )

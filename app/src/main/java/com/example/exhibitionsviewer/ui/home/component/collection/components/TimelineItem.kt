@@ -105,7 +105,7 @@ fun TimelineItem(item: Publication, onItemClick: () -> Unit){
 
             Image(
                 imageVector = iconImage,
-                contentDescription = "Indicator",
+                contentDescription = "Індикатор",
                 contentScale = ContentScale.Crop,
                 colorFilter = ColorFilter.tint(
                     color = Color(0xFF2D4869)

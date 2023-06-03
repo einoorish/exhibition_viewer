@@ -19,26 +19,26 @@ fun HomeScreen(
     onPublicationSelected: (Long) -> Unit,
     onOrganizationSelected: (Long) -> Unit,
 ) {
-    val selectedItem = rememberSaveable { mutableStateOf(1) }
+    val selectedItem = rememberSaveable { mutableStateOf(0) }
 
     Scaffold(
         bottomBar = {
             BottomNavigation {
                 BottomNavigationItem(
-                    icon = { Icon(Icons.Default.List, contentDescription = "Exhibits") },
-                    label = { Text("Exhibits") },
+                    icon = { Icon(Icons.Default.List, contentDescription = "Експонати") },
+                    label = { Text("Експонати") },
                     selected = selectedItem.value == 0,
                     onClick = { selectedItem.value = 0 }
                 )
                 BottomNavigationItem(
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Organizations") },
-                    label = { Text("Organizations") },
+                    icon = { Icon(Icons.Default.Person, contentDescription = "Організації") },
+                    label = { Text("Організації") },
                     selected = selectedItem.value == 1,
                     onClick = { selectedItem.value = 1 }
                 )
                 BottomNavigationItem(
-                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Subscribed") },
-                    label = { Text("Subscribed") },
+                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Підписки") },
+                    label = { Text("Підписки") },
                     selected = selectedItem.value == 2,
                     onClick = { selectedItem.value = 2 }
                 )

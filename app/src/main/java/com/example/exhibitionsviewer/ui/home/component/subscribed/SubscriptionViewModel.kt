@@ -1,5 +1,6 @@
 package com.example.exhibitionsviewer.ui.home.component.subscribed
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.*
 import com.example.exhibitionsviewer.data.model.Publication
 import com.example.exhibitionsviewer.data.model.Subscription
@@ -19,33 +20,41 @@ class SubscriptionViewModel @Inject constructor(
     private val subscriptionRepository: SubscriptionRepository
 ) : ViewModel() {
 
-    fun getAllPublications(): Flow<List<Publication>> = flow {
-        emit(remoteRepository.getPublications("", 0))
+    init {
+        getAllPublications()
+    }
+
+    fun getAllPublications(): Flow<List<Publication>?> = flow {
+        emit(remoteRepository.getPublications(offset =  0))
     }.flowOn(Dispatchers.IO)
 
 
-    private var subscriptionIds: List<Subscription>? = null
+    private var subscriptionIds = mutableStateListOf<Subscription>()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            subscriptionRepository.getAll().collect {
-                subscriptionIds = it
+            subscriptionRepository.getAll().collect { elements ->
+                subscriptionIds.addAll(elements)
             }
         }
     }
 
     fun subscribe(id: Long, name: String){
-        if(!isSubscribed(id)) {
-            viewModelScope.launch(Dispatchers.IO) {
-                subscriptionRepository.add(id, name);
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            subscriptionRepository.add(id, name)
+            subscriptionIds.add(Subscription(id, name))
         }
     }
 
-    private fun isSubscribed(id: Long): Boolean {
-        var result = subscriptionIds?.map { it.organization_id }?.contains(id)
-        if (result == null) result = false
-        return result
+    fun unsubscribe(id: Long, organizationName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            subscriptionRepository.remove(id, organizationName)
+            subscriptionIds.remove(Subscription(id, organizationName))
+        }
+    }
+
+    fun isSubscribed(id: Long): Boolean {
+        return subscriptionIds.map { it.organization_id }.contains(id)
     }
 
     fun getSubscriptions() = subscriptionIds

@@ -30,14 +30,14 @@ fun PublicationDetailScreen(id: Long) {
         bottomBar = {
             BottomNavigation {
                 BottomNavigationItem(
-                    icon = { Icon(Icons.Default.List, contentDescription = "Exhibits") },
-                    label = { Text("Information") },
+                    icon = { Icon(Icons.Default.List, contentDescription = "Інформація") },
+                    label = { Text("Інформація") },
                     selected = selectedItem.value == 0,
                     onClick = { selectedItem.value = 0 }
                 )
                 BottomNavigationItem(
-                    icon = { Icon(Icons.Default.Home, contentDescription = "Media") },
-                    label = { Text("Media") },
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Медіа") },
+                    label = { Text("Медіа") },
                     selected = selectedItem.value == 1,
                     onClick = { selectedItem.value = 1 }
                 )

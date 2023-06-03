@@ -12,6 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.exhibitionsviewer.data.model.Epoch
+import com.example.exhibitionsviewer.data.model.ExhibitSubjects
+import com.example.exhibitionsviewer.data.model.ExhibitType
 import com.example.exhibitionsviewer.data.model.Publication
 import com.example.exhibitionsviewer.ui.home.component.organization_details.components.imageFromURL
 
@@ -32,9 +35,9 @@ fun PublicationInfo(publication: Publication?){
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Text(
-                text =  "#${publication.epoch.replace("_", " ")} " +
-                        "#${publication.subject.replace("_", " ")} " +
-                        "#${publication.type.replace("_", " ")}",
+                text =  "#${Epoch.valueOf(publication.epoch).ukr} " +
+                        "#${ExhibitSubjects.valueOf(publication.subject).ukr} " +
+                        "#${ExhibitType.valueOf(publication.type).ukr}",
                 style = MaterialTheme.typography.caption,
                 color = Color.Blue,
                 modifier = Modifier.padding(bottom = 8.dp).align(Alignment.CenterHorizontally)

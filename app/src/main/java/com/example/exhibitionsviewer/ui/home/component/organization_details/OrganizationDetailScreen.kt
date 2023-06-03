@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.material.Card
@@ -18,19 +19,23 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.exhibitionsviewer.R
 import com.example.exhibitionsviewer.data.model.Category
+import com.example.exhibitionsviewer.data.model.OrgType
 import com.example.exhibitionsviewer.data.model.Organization
 import com.example.exhibitionsviewer.ui.home.component.organization_details.components.imageFromURL
 import com.example.exhibitionsviewer.ui.home.component.subscribed.SubscriptionViewModel
@@ -44,6 +49,7 @@ fun OrganizationDetailScreen(id: Long, onCollectionSelected: (Long) -> Unit) {
     val subscriptionViewModel: SubscriptionViewModel = viewModel(LocalContext.current as ComponentActivity)
 
     val organization: State<Organization?> = viewModel.getOrganization(id).collectAsState(null)
+    val isSubscribed = remember { mutableStateOf(subscriptionViewModel.isSubscribed(id)) }
 
     val items: List<Category>? by viewModel.dataFlow.collectAsState(initial = null)
 
@@ -56,11 +62,17 @@ fun OrganizationDetailScreen(id: Long, onCollectionSelected: (Long) -> Unit) {
     Scaffold(
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                text = { Text(text = "Subscribe") },
+                text = { Text(text = if(!isSubscribed.value) {"Підписатись"} else {"Відписатись"}) },
                 backgroundColor = blue500,
                 onClick = { organization.value?.let {
-                    Toast.makeText(context, "Subscribed", Toast.LENGTH_LONG).show()
-                    subscriptionViewModel.subscribe(it.id, it.organizationName)
+                    if(!isSubscribed.value) {
+                        Toast.makeText(context, "Оформлено підписку", Toast.LENGTH_LONG).show()
+                        subscriptionViewModel.subscribe(it.id, it.organizationName)
+                    } else {
+                        Toast.makeText(context, "Підписку скасовано", Toast.LENGTH_LONG).show()
+                        subscriptionViewModel.unsubscribe(it.id, it.organizationName)
+                    }
+                    isSubscribed.value = !isSubscribed.value
                 } }
             )
         },
@@ -68,6 +80,7 @@ fun OrganizationDetailScreen(id: Long, onCollectionSelected: (Long) -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .background(colorResource(id = R.color.bg_gray))
                     .padding(16.dp)
             ) {
                 organization.value?.organizationName?.let {
@@ -81,7 +94,7 @@ fun OrganizationDetailScreen(id: Long, onCollectionSelected: (Long) -> Unit) {
 
                 organization.value?.let {
                     Text(
-                        text = it.type,
+                        text = OrgType.valueOf(it.type).ukr,
                         style = MaterialTheme.typography.caption,
                         modifier = Modifier.padding(bottom = 8.dp),
                         color = Color.DarkGray
@@ -118,7 +131,7 @@ fun OrganizationDetailScreen(id: Long, onCollectionSelected: (Long) -> Unit) {
                 }
 
                 Text(
-                    text = "Collections",
+                    text = "Колекції",
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(10.dp)
 
@@ -134,24 +147,30 @@ fun OrganizationDetailScreen(id: Long, onCollectionSelected: (Long) -> Unit) {
 
                 items?.let {
                     VerticalPager(
-                        state = pagerState.value,
-                        contentPadding = PaddingValues(horizontal = 32.dp),
                         pageCount = it.size,
+                        pageSize = PageSize.Fixed(210.dp),
+                        modifier = Modifier.fillMaxHeight()
                     ) { page ->
                         Card(
                             elevation = 4.dp,
-                            modifier = Modifier.fillMaxWidth().height(200.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
                                 .clickable(onClick = { onCollectionSelected(it[page].id) })
                         ) {
                             imageFromURL(
                                 url = it[page].thumbnailUrl,
                                 modifier = Modifier.onGloballyPositioned { coords -> sizeImage = coords.size }
                             )
-                            Box(modifier = Modifier.fillMaxSize().background(gradient))
+                            Box(modifier = Modifier
+                                .fillMaxSize()
+                                .background(gradient))
                             Text(
                                 it[page].title,
                                 color = Color.White,
-                                modifier = Modifier.fillMaxHeight().padding(10.dp, 160.dp, 10.dp, 10.dp),
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .padding(10.dp, 160.dp, 10.dp, 10.dp),
                                 fontSize = 20.sp
                             )
                         }

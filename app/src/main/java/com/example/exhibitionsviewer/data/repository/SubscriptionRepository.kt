@@ -21,6 +21,10 @@ class SubscriptionRepository @Inject constructor(db: MainDatabase)  {
         subscriptionDao.insert(Subscription(id, name))
     }
 
+    fun remove(id: Long, name: String){
+        subscriptionDao.delete(Subscription(id, name))
+    }
+
     fun getAll(): Flow<List<Subscription>> {
         return subscriptionDao.getAll()
     }

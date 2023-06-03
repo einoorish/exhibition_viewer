@@ -1,8 +1,10 @@
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
@@ -25,11 +27,13 @@ import androidx.compose.ui.unit.sp
 import com.example.exhibitionsviewer.R
 
 @Composable
-fun SearchView(state: MutableState<TextFieldValue>) {
+fun SearchView(state: MutableState<TextFieldValue>, onValueChange: (TextFieldValue) -> Unit, onClose: () -> Unit) {
     TextField(
         value = state.value,
-        onValueChange = { value ->
-            state.value = value
+        placeholder = {Text("Пошук по тексту...", color=Color.White, fontSize = 18.sp)},
+        onValueChange = {
+            state.value = it
+            onValueChange(it)
         },
         modifier = Modifier
             .fillMaxWidth(),
@@ -39,34 +43,18 @@ fun SearchView(state: MutableState<TextFieldValue>) {
                 Icons.Default.Search,
                 contentDescription = "",
                 modifier = Modifier
-                    .padding(15.dp)
+                    .padding(top=15.dp, bottom = 15.dp)
                     .size(24.dp)
             )
         },
-        trailingIcon = {
-            IconButton(
-                onClick = {
-                    state.value =
-                        TextFieldValue("")
-                }
-            ) {
-                Icon(
-                    Icons.Default.Menu,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .padding(15.dp)
-                        .size(24.dp)
-                )
-            }
-        },
         singleLine = true,
-        shape = RectangleShape, // The TextFiled has rounded corners top left and right by default
+        shape = RoundedCornerShape(16.dp), // The TextFiled has rounded corners top left and right by default
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.White,
             cursorColor = Color.White,
             leadingIconColor = Color.White,
             trailingIconColor = Color.White,
-            backgroundColor = colorResource(id = R.color.blue_700),
+            backgroundColor = colorResource(id = R.color.blue_500),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
@@ -78,5 +66,5 @@ fun SearchView(state: MutableState<TextFieldValue>) {
 @Composable
 fun SearchViewPreview() {
     val textState = remember { mutableStateOf(TextFieldValue("")) }
-    SearchView(textState)
+    SearchView(textState, {}, {})
 }

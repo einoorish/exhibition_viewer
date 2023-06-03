@@ -1,6 +1,7 @@
 package com.example.exhibitionsviewer.ui.home.component.exhibits
 
 import androidx.lifecycle.*
+import com.example.exhibitionsviewer.data.model.FilterData
 import com.example.exhibitionsviewer.data.model.Publication
 import com.example.exhibitionsviewer.data.repository.RemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +16,7 @@ class ExhibitsViewModel @Inject constructor(
     private val remoteRepository: RemoteRepository
 ) : ViewModel() {
 
-    fun getAllPublications(): Flow<List<Publication>> = flow {
-        emit(remoteRepository.getPublications("", 0))
+    fun getPublications(filterData: FilterData? = null): Flow<List<Publication>?> = flow {
+        emit(remoteRepository.getPublications(filterData, 0))
     }.flowOn(Dispatchers.IO)
-
 }

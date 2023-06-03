@@ -41,7 +41,7 @@ fun PublicationItem(publication: Publication, onItemClick: (Long) -> Unit) {
             .padding(10.dp)) {
             imageFromURL(url = publication.thumbnailUrl, Modifier.fillMaxWidth().requiredHeightIn(min = 50.dp, max = 300.dp))
             Text(text = publication.title, style = MaterialTheme.typography.body1, modifier = Modifier.padding(top = 8.dp))
-            Text(text = publication.organization, style = MaterialTheme.typography.caption, modifier = Modifier.padding(top = 4.dp))
+            publication.organization?.let { Text(text = it, style = MaterialTheme.typography.caption, modifier = Modifier.padding(top = 4.dp)) }
         }
     }
 }

@@ -14,20 +14,14 @@ interface ApiService {
         @Path("id") id: Long
     ): Publication
 
-    @GET(value = "/get_all_publications")
-    suspend fun getPublications(
-        @Query("q") searchPhrase: String,
-        @Query("offset") offset: Int
-    ): List<Publication>
-
     @GET(value = "/get_publications")
-    suspend fun getFilteredPublications(
-        @Query("text") searchPhrase: String?,
-        @Query("offset") offset: Int,
-        @Query("subject") subject: String?,
-        @Query("type") type: String?,
-        @Query("media_type") mediaType: String?,
-    ): List<Publication>
+    suspend fun getPublications(
+        @Query("text") searchPhrase: String,
+        @Query("type") type: String,
+        @Query("subject") subject: String,
+        @Query("epoch") epoch: String,
+        @Query("offset") offset: Int
+    ): List<Publication>?
 
     @GET(value = "/get_organization/{id}")
     suspend fun getOrganization(
